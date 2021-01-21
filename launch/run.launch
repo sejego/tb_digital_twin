@@ -1,0 +1,25 @@
+<launch>
+<!-- This launch file is to launch Rosbridge and iseauto modules-->
+
+<!-- Launch rosbridge 
+    <include file="$(find rosbridge_server)/launch/rosbridge_udp.launch" />
+-->
+<!--Launch iseauto nodes-->
+
+<!-- Declare your PID controller parameters -->
+
+    <node pkg="tb_digital_twin" type="Control" name="/tb/loading_motor/controller">
+      <param name="P" value="0.018" />
+      <param name="I" value="0.012" />
+      <param name="D" value="0.0" />
+      <param name="max_torque" value="60.0" />
+      <param name="min_value" value="0.0"/>
+    </node>
+<!-- Launch Rotation node -->
+
+<node name="tb_rotation" pkg="tb_digital_twin" type="Rotation" />
+
+<include file="$(find tb_digital_twin)/launch/efficiency_map.launch" />
+<include file="$(find tb_digital_twin)/launch/input_current.launch" />
+
+</launch>

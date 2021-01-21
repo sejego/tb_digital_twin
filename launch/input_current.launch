@@ -1,0 +1,13 @@
+<launch>
+    <arg name="filename" value="dataWithFault5k.csv" />
+    <arg name="frequency_default" value="5000" />
+    <arg name="number_of_values" value="6"/>
+    <arg name="number_of_columns" value="12"/>
+<!-- Input Voltage and Current node and parameters -->
+    <node pkg="tb_digital_twin" type="currentVoltageFlow" name="loading_motor_1" output="screen">
+        <param name="csv_file" type="str" value="$(find tb_digital_twin)/Utilities/$(arg filename)" />
+        <param name="number_of_values" type="int" value="$(arg number_of_values)" />
+        <param name="number_of_columns" type="int" value="$(arg number_of_columns)" />
+        <param name="frequency" type="double" value="$(arg frequency_default)" />
+    </node>
+</launch>
