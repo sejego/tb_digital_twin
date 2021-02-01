@@ -33,12 +33,14 @@ private:
     //float timeFromStart;
     //float timeIncrement;
     int arrIndex = 0;
+    bool runForever;
 
 public:
 
-    InputCurrentVoltage(std::string filename, int numberOfCols, int numberOfVals)
+    InputCurrentVoltage(std::string filename, int numberOfCols, int numberOfVals, bool runForever)
     {
         ros::NodeHandle handler;
+        runForever = runForever;
         // initializing publishers/subscribers
         PublishInputCurrent = handler.advertise<tb_digital_twin::Current>("tb/loading_motor/input_current", 10);
         PublishInputVoltage = handler.advertise<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 10);
@@ -79,7 +81,15 @@ public:
     void spinOnce()
     {
         ros::spinOnce();
-        //printf("Time at smth is %lf\n", timeFromStartDewetron);
+        /* If runForever is activated, the index will be reset to 0*/
+        if(runForever)
+        {
+            if (arrIndex >= dewetron->getNumberOfRows())
+            {
+                arrIndex = 0;
+            }
+        }
+
         wrapToMsgArray(arrIndex);
         PublishInputCurrent.publish(inputCurrentValuesMsg);
         PublishInputVoltage.publish(inputVoltageValuesMsg);
@@ -92,6 +102,7 @@ int main(int argc, char **argv)
     std::string csv_file;
     float frequency;
     int cols, vals;
+    bool runForever;
 
     ros::init(argc, argv, "loading_motor_1");
     ROS_INFO("Started iseauto inputCurrentVoltage node");
@@ -99,11 +110,11 @@ int main(int argc, char **argv)
     ros::param::get("loading_motor_1/frequency", frequency);
     ros::param::get("loading_motor_1/number_of_columns", cols);
     ros::param::get("loading_motor_1/number_of_values", vals);
-    //std::cout << "params loaded \n" << "file name: " << csv_file <<"  "<< "NumofCols: " << cols << "\n";
+    ros::param::get("loading_motor_1/run_forever",runForever);
 
     try
     {
-        InputCurrentVoltage inputIV(csv_file, cols, vals);
+        InputCurrentVoltage inputIV(csv_file, cols, vals, runForever);
         //std::cout << "Instantiated\n";
 
         inputIV.spin();

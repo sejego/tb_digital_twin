@@ -124,7 +124,6 @@ int main(int argc, char *argv[])
     std::thread tPhaseChecker(&WindingErrorChecker::phaseChecker, &wec, pNotTerminated);
     ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current",
                                                                               200, &WindingErrorChecker::currentCallback, &wec);
-
     ros::spin();
     if(ros::ok() == false)
     {

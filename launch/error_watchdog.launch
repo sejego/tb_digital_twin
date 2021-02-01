@@ -1,0 +1,6 @@
+<launch>
+
+    <node pkg="tb_digital_twin" type="currentVoltageFlow" name="motor_winding_watchdog" output="screen"/>
+    <include file="$(find tb_digital_twin)/launch/input_current.launch" />
+
+</launch>

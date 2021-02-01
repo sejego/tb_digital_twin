@@ -2,6 +2,6 @@
     <arg name="filename" value="PMSynRM.csv" />
     <!-- EfficiencyMap node and parameters -->
     <node pkg="tb_digital_twin" type="Efficiency" name="loading_motor_efficiency" output="screen">
-        <param name="csv_file" type="str" value="$(find tb_digital_twin)/Utilities/$(arg filename)" />
+        <param name="csv_file" type="str" value="/home/sejego/catkin_ws/src/Utilities/$(arg filename)" />
     </node>
 </launch>
