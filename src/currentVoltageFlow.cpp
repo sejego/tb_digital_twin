@@ -1,7 +1,7 @@
 //
 // Created by sejego on 10/19/20.
+// Last modified by sejego on 02/01/21.
 //
-// TODO: Handling for ending
 //
 
 #include <iostream>

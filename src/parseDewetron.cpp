@@ -1,8 +1,6 @@
 //
 // Created by sejego on 10/18/20.
 // This script parses the data from Dewetron measurement csv file
-// add relative path to file.
-// get onevalue of current?
 //
 
 #include <iostream>
