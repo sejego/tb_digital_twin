@@ -29,7 +29,7 @@ public:
     float mean[3], square[3];
     float k[3];
     int i = 0;
-    const int SIZE_A = 1000;
+    const int SIZE_A = 5000;
 
     WindingErrorChecker()
     {
@@ -68,10 +68,10 @@ public:
         //std::cout << *pCanCalculate << "\n";
         while(true)
         {
-            if(*pNotTerminated == false)
+            if(!*pNotTerminated)
                 break;
 
-            if(*pCanCalculate == true)
+            if(*pCanCalculate)
             {
                 //printf("Start Calculate\n");
                 for(int j = 0; j<SIZE_A ; j++)
@@ -92,9 +92,9 @@ public:
                 {
                     k[j] = rmsCurrents[j]/rmsCurrents[0];
                 }
-                for(int j=0; j < 3; j++)
+                for(float j : k)
                 {
-                    if( abs(k[0] - k[j]) > 0.15 )
+                    if( abs(k[0] - j) > 0.15 )
                     {
                         ROS_WARN("Potential malfunction in windings");
                     }
@@ -104,9 +104,9 @@ public:
 
                 /* CLEANUP */
                 currentsBuff.clear();
-                for(int j =0; j < 3;j++)
+                for(float & j : square)
                 {
-                    square[j] = 0;
+                    j = 0;
                 }
                 *pCanCalculate = false;
             }
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
     ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current",
                                                                               200, &WindingErrorChecker::currentCallback, &wec);
     ros::spin();
-    if(ros::ok() == false)
+    if(!ros::ok())
     {
         notTerminated = false;
         tPhaseChecker.join();
