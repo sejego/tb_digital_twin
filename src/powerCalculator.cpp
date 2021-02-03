@@ -38,7 +38,6 @@ private:
             square[1][1] += voltageBuffer[1][j] * voltageBuffer[1][j];
             square[1][2] += voltageBuffer[2][j] * voltageBuffer[2][j];
         }
-        std::cout<<"Squares completed\n";
         for (int j = 0; j < 3; j++)
         {
             mean[0][j] = (square[0][j] / SIZE_A);
@@ -81,20 +80,12 @@ public:
 
         if(c >= SIZE_A )
         {
-            std::cout<<"CURRENT HAPPENED\n";
-            //std::cout << "Listened\n";
-            std::cout << "Copy vector\n";
-            std::cout << voltages.at(0).size()<<"\n";
-            std::cout << currents.at(0).size()<<"\n";
             currentBuffer = currents;
-            std::cout << "Copied vector\n";
             canCalculate = true;
             cReady = true;
             currents.clear();
             currents.resize(3);
-            std::cout<<"Resized\n";
             c = 0;
-
         }
 
         currents.at(0).push_back(msg->current1);
@@ -110,16 +101,11 @@ public:
         inputVoltage[2] = msg->voltage3;
         if(v >= SIZE_A )
         {
-            std::cout << "VOLTAGE HPAPENED\n";
-            //std::cout << "Listened\n";
-            std::cout << "Copy vector\n";
             voltageBuffer = voltages;
-            std::cout << "Vector copied\n";
             canCalculate = true;
             vReady = true;
             voltages.clear();
             voltages.resize(3);
-            std::cout<<"Resized\n";
             v = 0;
         }
 
@@ -138,17 +124,21 @@ public:
         totalPowerReactive = phasePowerReactive[0]+phasePowerReactive[1]+phasePowerReactive[2];
         //return totalPower;
     }
-    void calculatePowerElectrical()
+    bool calculatePowerElectrical()
     {
+        /* BOOL to confirm calculation and not send bullcrap?*/
         if(cReady && vReady)
         {
-            std::cout << " SHALL I CALCULATE?\n";
             calculateRMS();
-            std::cout << "WOOHOO I CALCULATED\n";
             phasePowerElectrical[0] = rmsCurrents[0] * rmsVoltages[0] * cosPhi;
             phasePowerElectrical[1] = rmsCurrents[1] * rmsVoltages[1] * cosPhi;
             phasePowerElectrical[2] = rmsCurrents[2] * rmsVoltages[2] * cosPhi;
             totalPowerElectrical = phasePowerElectrical[0] + phasePowerElectrical[1] + phasePowerElectrical[2];
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     void clearBuffers()
@@ -179,33 +169,37 @@ int main(int argc, char *argv[])
 {
     Power power;
     ros::init(argc, argv, "tb_loading_motor_power");
+    ROS_DEBUG("Power Node initialized");
     ros::NodeHandle handler;
-    ros::Publisher PowerReactivePublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power_reactive", 100);
-    ros::Publisher PowerElectricalPublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power_electrical", 100);
+    ros::Publisher PowerReactivePublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power/reactive_power", 100);
+    ros::Publisher PowerElectricalPublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power/electrical_power", 100);
     ros::Subscriber voltageSubscriber = handler.subscribe<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 100, &Power::voltageCallback, &power);
     ros::Subscriber currentSubscriber = handler.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current", 100, &Power::currentCallback, &power);
+    ROS_DEBUG("Subscribed to /tb/loading_motor/input_current topic");
+    ROS_DEBUG("Subscribed to /tb/loading_motor/input_voltage topic");
     ros::Rate rate(60);
 
     tb_digital_twin::Power powerReactMsg;
     tb_digital_twin::Power powerElMsg;
+
     while(ros::ok())
     {
         ros::spinOnce();
         power.calculatePowerReactive();
         if(power.getCanCalculate())
         {
-            std::cout<< "Time to calculate\n";
-            power.calculatePowerElectrical();
-            std::cout<<"Managed to calculate el power\n";
-            powerElMsg.phase1 = power.phasePowerElectrical[0];
-            powerElMsg.phase2 = power.phasePowerElectrical[1];
-            powerElMsg.phase3 = power.phasePowerElectrical[2];
-            powerElMsg.total = power.totalPowerElectrical;
-            power.clearBuffers();
-            power.setCanCalculate(false);
-            power.setCurrentReady(false);
-            power.setVoltageReady(false);
-            PowerElectricalPublisher.publish(powerElMsg);
+            if(power.calculatePowerElectrical())
+            {
+                powerElMsg.phase1 = power.phasePowerElectrical[0];
+                powerElMsg.phase2 = power.phasePowerElectrical[1];
+                powerElMsg.phase3 = power.phasePowerElectrical[2];
+                powerElMsg.total = power.totalPowerElectrical;
+                power.clearBuffers();
+                power.setCanCalculate(false);
+                power.setCurrentReady(false);
+                power.setVoltageReady(false);
+                PowerElectricalPublisher.publish(powerElMsg);
+            }
         }
         powerReactMsg.phase1 = power.phasePowerReactive[0];
         powerReactMsg.phase2 = power.phasePowerReactive[1];
