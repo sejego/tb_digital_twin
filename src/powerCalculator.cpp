@@ -8,8 +8,6 @@ class Power
 {
 private:
     bool canCalculate = false;
-    bool vReady = false;
-    bool cReady = false;
     bool* const pVoltageReady = &vReady;
     bool* const pCurrentReady = &cReady;
     bool* const pCanCalculate = &canCalculate;
@@ -23,7 +21,8 @@ private:
     std::vector<std::vector<float>> voltageBuffer;
     const float cosPhi = 0.84;
     const int SIZE_A = 5000;
-    int c, v = 0;
+    int c  = 0;
+    int v = 0;
 
     void calculateRMS()
     {
@@ -64,6 +63,9 @@ public:
     float totalPowerElectrical;
     float phasePowerReactive[3];
     float totalPowerReactive;
+    bool vReady = false;
+    bool cReady = false;
+
 
     Power()
     {
@@ -81,7 +83,6 @@ public:
         if(c >= SIZE_A )
         {
             currentBuffer = currents;
-            canCalculate = true;
             cReady = true;
             currents.clear();
             currents.resize(3);
@@ -102,7 +103,6 @@ public:
         if(v >= SIZE_A )
         {
             voltageBuffer = voltages;
-            canCalculate = true;
             vReady = true;
             voltages.clear();
             voltages.resize(3);
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
     {
         ros::spinOnce();
         power.calculatePowerReactive();
-        if(power.getCanCalculate())
+        if(power.vReady && power.cReady)
         {
             if(power.calculatePowerElectrical())
             {
@@ -195,10 +195,10 @@ int main(int argc, char *argv[])
                 powerElMsg.phase3 = power.phasePowerElectrical[2];
                 powerElMsg.total = power.totalPowerElectrical;
                 power.clearBuffers();
-                power.setCanCalculate(false);
+                PowerElectricalPublisher.publish(powerElMsg);
                 power.setCurrentReady(false);
                 power.setVoltageReady(false);
-                PowerElectricalPublisher.publish(powerElMsg);
+                power.setCanCalculate(false);
             }
         }
         powerReactMsg.phase1 = power.phasePowerReactive[0];

@@ -44,6 +44,7 @@ add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
         src/parseDewetron.cpp
         src/PhysicalValueTemplate.cpp)
+add_executable(Torque src/torqueCalculator.cpp)
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(${PROJECT_NAME}_CCN
 
@@ -58,4 +59,6 @@ target_link_libraries(currentVoltageFlow
 target_link_libraries(Power
   ${catkin_LIBRARIES})
 target_link_libraries(errorCheck
+  ${catkin_LIBRARIES})
+target_link_libraries(Torque
   ${catkin_LIBRARIES})

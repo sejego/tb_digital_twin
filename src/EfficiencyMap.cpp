@@ -210,6 +210,7 @@ int main(int argc, char **argv) {
     int compare;
     ROS_INFO("Started tb/loading_motor/efficiency node");
     ros::param::get("loading_motor_efficiency/csv_file", filename_csv);
+    std::cout << filename_csv;
 
     try {
         EfficiencyMapProcessor EffMapper(filename_csv);
