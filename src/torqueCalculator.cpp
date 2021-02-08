@@ -15,7 +15,8 @@ private:
     bool efficiencyUpdated = false;
 
     float electricalPower, efficiency, angularVelocity;
-    float mechanicalTorque, electricalTorque = 0;
+    float mechanicalTorque = 0;
+    float electricalTorque = 0;
 
     float calculateElectricalTorque()
     {
@@ -48,21 +49,13 @@ public:
             electricalTorque = calculateElectricalTorque();
             powerUpdated = false;
             velocityUpdated = false;
-            powerUpdated = true;
         }
     }
     void efficiencyListener(const std_msgs::Float32ConstPtr &msg)
     {
         efficiency = msg->data;
-        efficiencyUpdated = true;
-        /*
-        if(powerUpdated && efficiencyUpdated)
-        {
-            mechanicalTorque = calculateMechanicalTorque();
-            powerUpdated = false;
-            efficiencyUpdated = false;
-        }
-         */
+       // efficiencyUpdated = true;
+        mechanicalTorque = calculateMechanicalTorque();
     }
     void angularVelocityListener(const std_msgs::Float32ConstPtr &msg)
     {
@@ -73,7 +66,7 @@ public:
             electricalTorque = calculateElectricalTorque();
             powerUpdated = false;
             velocityUpdated = false;
-            powerUpdated = true;
+            powerUpdated = false;
         }
     }
 };
@@ -92,7 +85,7 @@ int main(int argc, char *argv[])
                                                                        &TorqueCalculator::powerListener, &torqueCalculator);
     ros::Subscriber efficiencyReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/efficiency", 100,
                                                                     &TorqueCalculator::efficiencyListener, &torqueCalculator);
-    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/actual_rpm", 100,
+    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("/rotation/tb/loading_motor/actual_rpm", 100,     // TODO: change topic name here
                                                                               &TorqueCalculator::angularVelocityListener, &torqueCalculator);
 
     /* Publishers */
@@ -108,7 +101,6 @@ int main(int argc, char *argv[])
     while(ros::ok())
     {
         ros::spinOnce();
-        ROS_DEBUG("I happen for sure");
         elec_torque_msg.data = torqueCalculator.getElectricalTorque();
         mech_torque_msg.data = torqueCalculator.getMechanicalTorque();
         electricalTorquePublisher.publish(elec_torque_msg);
