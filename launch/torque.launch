@@ -1,0 +1,5 @@
+<launch>
+
+    <node pkg="tb_digital_twin" type="Torque" name="torqueCalculator"/>
+
+</launch>

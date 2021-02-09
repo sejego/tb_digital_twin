@@ -4,7 +4,7 @@
  * This code is based on a similar node from the differential_drive package
  * http://wiki.ros.org/differential_drive
  * https://github.com/jfstepha/differential-drive
- *
+ * TODO: FIX THIS STUFF TO BE CORRECT
  */
 #include <ros/ros.h>
 #include <ros/console.h>

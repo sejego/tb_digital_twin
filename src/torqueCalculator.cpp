@@ -25,7 +25,7 @@ private:
 
     float calculateMechanicalTorque()
     {
-        return (electricalTorque * efficiency);
+        return (electricalTorque / efficiency);
     }
 
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
                                                                        &TorqueCalculator::powerListener, &torqueCalculator);
     ros::Subscriber efficiencyReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/efficiency", 100,
                                                                     &TorqueCalculator::efficiencyListener, &torqueCalculator);
-    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("/rotation/tb/loading_motor/actual_rpm", 100,     // TODO: change topic name here
+    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 100,
                                                                               &TorqueCalculator::angularVelocityListener, &torqueCalculator);
 
     /* Publishers */

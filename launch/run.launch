@@ -8,6 +8,7 @@
 
 <!-- Declare your PID controller parameters -->
 
+    <--
     <node pkg="tb_digital_twin" type="Control" name="/tb/loading_motor/controller">
       <param name="P" value="0.018" />
       <param name="I" value="0.012" />

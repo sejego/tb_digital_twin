@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <std_msgs/Float32.h>
+#include <iostream>
 
 #define _USE_MATH_DEFINES
 
@@ -20,16 +21,16 @@ void angVListener::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "rotation");      // TODO: fix node name
+    ros::init(argc, argv, "rotation");
     ROS_INFO("Started tb/loading_motor/rotation node");
     ros::NodeHandle nh("~");
     ros::Rate rate(60);
 
     angVListener listener;
-    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("tb/loading_motor/shaft_angular_velocity", 10,   //TODO: fix topic names
+    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 10,   //TODO: fix topic names
                                                                        &angVListener::VelocityReceiver, &listener);
 
-    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10);
+    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("/tb/loading_motor/actual_rpm", 10);
 
     std_msgs::Float32 rpm_msg;
     rpm_msg.data = 0;
