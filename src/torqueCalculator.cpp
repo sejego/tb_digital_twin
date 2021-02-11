@@ -25,7 +25,7 @@ private:
 
     float calculateMechanicalTorque()
     {
-        return (electricalTorque / efficiency);
+        return (electricalTorque * efficiency);
     }
 
 

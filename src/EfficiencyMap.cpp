@@ -192,7 +192,7 @@ public:
         ros::spinOnce();
 
         std_msgs::Float32 value;
-        value.data = current_state.torque*(getEfficiency(current_state.rpm,current_state.torque)/100);
+        value.data = (getEfficiency(current_state.rpm,current_state.torque)/100); // *current_state.torque
         EfficiencyControl.publish(value);
     }
 
