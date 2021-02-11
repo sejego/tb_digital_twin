@@ -8,9 +8,9 @@
 #include <sstream>
 #include <string>
 #include <array>
-#include "parseDewetron.h"
+#include "ParseDewetron.h"
 
-parseDewetron::parseDewetron(std::string filename, int numberOfColumns)
+ParseDewetron::ParseDewetron(std::string filename, int numberOfColumns)
 {
     numOfCols = numberOfColumns;
     dewetronFile = std::ifstream(filename);
@@ -21,7 +21,7 @@ parseDewetron::parseDewetron(std::string filename, int numberOfColumns)
 }
 
 // parse the Dewetron measurements file
-void parseDewetron::parseDewetronFile()
+void ParseDewetron::parseDewetronFile()
 {
     int firstLineRead = 0;
     int foo = 0;
@@ -85,12 +85,12 @@ void parseDewetron::parseDewetronFile()
     separateToVectors();
     //std::cout << "Separate vectors worked\n";
 }
-std::vector<std::vector<float>> parseDewetron::getProcessed2DVector()
+std::vector<std::vector<float>> ParseDewetron::getProcessed2DVector()
 {
     return parsedData;
 }
 
-void parseDewetron::separateToVectors()
+void ParseDewetron::separateToVectors()
 {
     int colCt = 0;
     for(auto row : parsedData)
@@ -108,37 +108,37 @@ void parseDewetron::separateToVectors()
 
 }
 
-int parseDewetron::getNumberOfColumns()
+int ParseDewetron::getNumberOfColumns()
 {
     return numOfCols;
 }
 
-int parseDewetron::getNumberOfRows()
+int ParseDewetron::getNumberOfRows()
 {
     return numOfRows;
 }
-std::vector<std::string> parseDewetron::getListOfValueNames()
+std::vector<std::string> ParseDewetron::getListOfValueNames()
 {
     return listOfValueNames;
 }
-float parseDewetron::getStartTime() const
+float ParseDewetron::getStartTime() const
 {
     return parsedData[1][0];
 }
-float parseDewetron::getTimeStep() const
+float ParseDewetron::getTimeStep() const
 {
     return (parsedData[1][1] - parsedData[1][0]);
 }
-std::vector<std::vector<float>> parseDewetron::getOnlyTimes()
+std::vector<std::vector<float>> ParseDewetron::getOnlyTimes()
 {
     return timeVector;
 }
-std::vector<std::vector<float>> parseDewetron::getOnlyValues()
+std::vector<std::vector<float>> ParseDewetron::getOnlyValues()
 {
     return valuesVector;
 }
 /* Destructor */
-parseDewetron::~parseDewetron()
+ParseDewetron::~ParseDewetron()
 {
     parsedData.clear();
     timeVector.clear();

@@ -16,7 +16,6 @@
 #include <thread>
 #include "pid.h" // include PID class
 
-#define testingrn
 
 int ticksSinceTarget;
 float encoderValue;
@@ -51,10 +50,10 @@ void desiredReceive(std_msgs::Float32ConstPtr msg)
 
 }
 
-class MotorController {
+class Controller {
 public:
     //float max_torque = 60;
-    MotorController(float cp, float ci, float cd, float max_torque, float min_value) {
+    Controller(float cp, float ci, float cd, float max_torque, float min_value) {
 
         motorPID=new PID(0.018f,0.012,0.0000f,max_torque,0);
         motorPID->max_i=500;
@@ -118,7 +117,7 @@ int main(int argc, char **argv) {
     ros::param::get("/tb/loading_motor/controller/min_value",minValue);
 
     try {
-        MotorController baseController(cp,ci,cd,maxTorque,minValue);
+        Controller baseController(cp,ci,cd,maxTorque,minValue);
         baseController.spin();
     }
     catch (const ros::Exception) {

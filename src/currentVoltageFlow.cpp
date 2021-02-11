@@ -18,13 +18,13 @@
 #include <tb_digital_twin/Current.h>
 #include <tb_digital_twin/Voltage.h>
 
-#include "parseDewetron.h"
+#include "ParseDewetron.h"
 
 class InputCurrentVoltage
 {
 private:
     std::vector<std::vector<float>> arrayOfProcessedData;
-    parseDewetron *dewetron;
+    ParseDewetron *dewetron;
     ros::Publisher PublishInputCurrent;
     ros::Publisher PublishInputVoltage;
     tb_digital_twin::Current inputCurrentValuesMsg;
@@ -44,7 +44,7 @@ public:
         // initializing publishers/subscribers
         PublishInputCurrent = handler.advertise<tb_digital_twin::Current>("tb/loading_motor/input_current", 10);
         PublishInputVoltage = handler.advertise<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 10);
-        dewetron = new parseDewetron(filename, numberOfCols); // get from params
+        dewetron = new ParseDewetron(filename, numberOfCols); // get from params
         processValues();
     }
     void processValues()

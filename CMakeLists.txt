@@ -33,32 +33,32 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(Efficiency src/EfficiencyMap.cpp)
-add_executable(Control
+add_executable(EfficiencyMap src/EfficiencyMap.cpp)
+add_executable(Controller
         src/Controller.cpp
         src/pid.cpp)
-add_executable(Rotation src/Rotation.cpp)
-add_executable(errorCheck src/checkError.cpp)
-add_executable(Power src/powerCalculator.cpp)
+add_executable(angularConverter src/angularConverter.cpp)
+add_executable(windingCheck src/WindingErrorChecker.cpp)
+add_executable(powerCalculator src/powerCalculator.cpp)
 add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
-        src/parseDewetron.cpp
+        src/ParseDewetron.cpp
         src/PhysicalValueTemplate.cpp)
-add_executable(Torque src/torqueCalculator.cpp)
+add_executable(torqueCalculator src/torqueCalculator.cpp)
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(${PROJECT_NAME}_CCN
 
-target_link_libraries(Efficiency
+target_link_libraries(EfficiencyMap
   ${catkin_LIBRARIES})
-target_link_libraries(Rotation
+target_link_libraries(angularConverter
   ${catkin_LIBRARIES})
-target_link_libraries(Control
+target_link_libraries(Controller
   ${catkin_LIBRARIES})
 target_link_libraries(currentVoltageFlow
   ${catkin_LIBRARIES})
-target_link_libraries(Power
+target_link_libraries(powerCalculator
   ${catkin_LIBRARIES})
-target_link_libraries(errorCheck
+target_link_libraries(windingCheck
   ${catkin_LIBRARIES})
-target_link_libraries(Torque
+target_link_libraries(torqueCalculator
   ${catkin_LIBRARIES})

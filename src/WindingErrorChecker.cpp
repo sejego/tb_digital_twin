@@ -99,8 +99,6 @@ public:
                         ROS_WARN("Potential malfunction in windings");
                     }
                 }
-                //std::cout << "First is: " << rmsCurrents[0] << " - Second is: "<< rmsCurrents[1] << " - Third is: " << rmsCurrents[2] << "\n";
-
 
                 /* CLEANUP */
                 currentsBuff.clear();

@@ -7,14 +7,14 @@
 #include <cmath>
 #include <iostream>
 
-class angVListener
+class angularConverter
 {
 public:
     float rpm;
     void VelocityReceiver(const std_msgs::Float32ConstPtr &msg);
 };
 
-void angVListener::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
+void angularConverter::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
 {
     rpm = msg->data*60/(2* M_PI);
 }
@@ -26,9 +26,9 @@ int main(int argc, char *argv[])
     ros::NodeHandle nh("~");
     ros::Rate rate(60);
 
-    angVListener listener;
-    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 10,   //TODO: fix topic names
-                                                                       &angVListener::VelocityReceiver, &listener);
+    angularConverter listener;
+    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 10,
+                                                                       &angularConverter::VelocityReceiver, &listener);
 
     ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("/tb/loading_motor/actual_rpm", 10);
 
