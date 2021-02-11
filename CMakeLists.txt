@@ -37,14 +37,14 @@ add_executable(EfficiencyMap src/EfficiencyMap.cpp)
 add_executable(Controller
         src/Controller.cpp
         src/pid.cpp)
-add_executable(angularConverter src/angularConverter.cpp)
+add_executable(angularConverter src/AngularConverter.cpp)
 add_executable(windingCheck src/WindingErrorChecker.cpp)
-add_executable(powerCalculator src/powerCalculator.cpp)
+add_executable(powerCalculator src/PowerCalculator.cpp)
 add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
         src/ParseDewetron.cpp
         src/PhysicalValueTemplate.cpp)
-add_executable(torqueCalculator src/torqueCalculator.cpp)
+add_executable(torqueCalculator src/TorqueCalculator.cpp)
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(${PROJECT_NAME}_CCN
 

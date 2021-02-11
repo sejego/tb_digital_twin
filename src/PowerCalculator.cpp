@@ -4,7 +4,7 @@
 #include <tb_digital_twin/Current.h>
 #include <tb_digital_twin/Voltage.h>
 #include <tb_digital_twin/Power.h>
-class Power
+class PowerCalculator
 {
 private:
     bool canCalculate = false;
@@ -67,7 +67,7 @@ public:
     bool cReady = false;
 
 
-    Power()
+    PowerCalculator()
     {
         currents.resize(3);
         voltages.resize(3);
@@ -167,14 +167,14 @@ public:
 
 int main(int argc, char *argv[])
 {
-    Power power;
+    PowerCalculator power;
     ros::init(argc, argv, "tb_loading_motor_power");
     ROS_DEBUG("Power Node initialized");
     ros::NodeHandle handler;
     ros::Publisher PowerReactivePublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power/reactive_power", 100);
     ros::Publisher PowerElectricalPublisher = handler.advertise<tb_digital_twin::Power>("tb/loading_motor/motor_power/electrical_power", 100);
-    ros::Subscriber voltageSubscriber = handler.subscribe<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 100, &Power::voltageCallback, &power);
-    ros::Subscriber currentSubscriber = handler.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current", 100, &Power::currentCallback, &power);
+    ros::Subscriber voltageSubscriber = handler.subscribe<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 100, &PowerCalculator::voltageCallback, &power);
+    ros::Subscriber currentSubscriber = handler.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current", 100, &PowerCalculator::currentCallback, &power);
     ROS_DEBUG("Subscribed to /tb/loading_motor/input_current topic");
     ROS_DEBUG("Subscribed to /tb/loading_motor/input_voltage topic");
     ros::Rate rate(60);
