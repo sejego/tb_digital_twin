@@ -1,5 +1,5 @@
 <launch>
 
-    <node pkg="tb_digital_twin" type="Power" name="powerCalculator"/>
+    <node pkg="tb_digital_twin" type="powerCalculator" name="powerCalculator"/>
 
 </launch>

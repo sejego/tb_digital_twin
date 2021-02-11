@@ -1,7 +1,7 @@
 <launch>
     <arg name="filename" value="PMSynRM.csv" />
     <!-- EfficiencyMap node and parameters -->
-    <node pkg="tb_digital_twin" type="Efficiency" name="loading_motor_efficiency" output="screen">
+    <node pkg="tb_digital_twin" type="EfficiencyMap" name="loading_motor_efficiency" output="screen">
         <param name="csv_file" type="str" value="/home/sejego/catkin_ws/src/Utilities/$(arg filename)" />
         <remap from="tb/loading_motor/torque" to="tb/loading_motor/electrical_torque"/>
 

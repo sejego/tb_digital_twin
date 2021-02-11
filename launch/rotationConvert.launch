@@ -1,5 +1,5 @@
 <launch>
 
-    <node pkg="tb_digital_twin" type="Rotation" name="loading_motor_rotation" output="screen"/>
+    <node pkg="tb_digital_twin" type="angularConverter" name="loading_motor_rotation" output="screen"/>
 
 </launch>
