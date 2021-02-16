@@ -1,5 +1,5 @@
 <launch>
-    <arg name="filename" value="measurement_malfunction.csv" />
+    <arg name="filename" value="healthy_current_5k.csv" />
     <arg name="frequency_default" value="5000" />
     <arg name="number_of_values" value="6"/>
     <arg name="number_of_columns" value="12"/>
