@@ -16,16 +16,16 @@ private:
 
     float electricalPower, efficiency, angularVelocity;
     float mechanicalTorque = 0;
-    float electricalTorque = 0;
+    float electricalTorqueRef = 0;
 
-    float calculateElectricalTorque()
+    float calculateElectricalTorqueRef()
     {
         return (electricalPower / angularVelocity);
     }
 
     float calculateMechanicalTorque()
     {
-        return (electricalTorque * efficiency);
+        return (electricalTorqueRef * efficiency);
     }
 
 
@@ -35,9 +35,9 @@ public:
         return mechanicalTorque;
     }
 
-    float getElectricalTorque()
+    float getElectricalTorqueRef()
     {
-        return electricalTorque;
+        return electricalTorqueRef;
     }
 
     void powerListener(const tb_digital_twin::Power::ConstPtr &msg)
@@ -46,7 +46,7 @@ public:
         powerUpdated = true;
         if(powerUpdated && velocityUpdated)
         {
-            electricalTorque = calculateElectricalTorque();
+            electricalTorqueRef = calculateElectricalTorqueRef();
             powerUpdated = false;
             velocityUpdated = false;
         }
@@ -63,7 +63,7 @@ public:
         velocityUpdated = true;
         if(powerUpdated && velocityUpdated)
         {
-            electricalTorque = calculateElectricalTorque();
+            electricalTorqueRef = calculateElectricalTorqueRef();
             powerUpdated = false;
             velocityUpdated = false;
             powerUpdated = false;
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
                                                                               &TorqueCalculator::angularVelocityListener, &torqueCalculator);
 
     /* Publishers */
-    ros::Publisher electricalTorquePublisher = nh.advertise<std_msgs::Float32>("/tb/loading_motor/electrical_torque", 10);
+    ros::Publisher electricalTorquePublisher = nh.advertise<std_msgs::Float32>("/tb/loading_motor/electrical_torque_ref", 10);
     ros::Publisher mechanicalTorquePublisher = nh.advertise<std_msgs::Float32>("/tb/loading_motor/mechanical_torque", 10);
 
 
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     while(ros::ok())
     {
         ros::spinOnce();
-        elec_torque_msg.data = torqueCalculator.getElectricalTorque();
+        elec_torque_msg.data = torqueCalculator.getElectricalTorqueRef();
         mech_torque_msg.data = torqueCalculator.getMechanicalTorque();
         electricalTorquePublisher.publish(elec_torque_msg);
         mechanicalTorquePublisher.publish(mech_torque_msg);
