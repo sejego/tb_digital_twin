@@ -38,7 +38,6 @@ add_executable(Controller
         src/Controller.cpp
         src/pid.cpp)
 add_executable(angularConverter src/AngularConverter.cpp)
-add_executable(windingCheck src/WindingErrorChecker.cpp)
 add_executable(powerCalculator src/PowerCalculator.cpp)
 add_executable(currentVoltageFlow
         src/currentVoltageFlow.cpp
@@ -57,8 +56,6 @@ target_link_libraries(Controller
 target_link_libraries(currentVoltageFlow
   ${catkin_LIBRARIES})
 target_link_libraries(powerCalculator
-  ${catkin_LIBRARIES})
-target_link_libraries(windingCheck
   ${catkin_LIBRARIES})
 target_link_libraries(torqueCalculator
   ${catkin_LIBRARIES})
