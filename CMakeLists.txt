@@ -33,18 +33,18 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(EfficiencyMap src/EfficiencyMap.cpp)
+add_executable(EfficiencyMap src/loading_motor_dt/EfficiencyMap.cpp)
 add_executable(Controller
-        src/Controller.cpp
-        src/pid.cpp)
-add_executable(angularConverter src/AngularConverter.cpp)
-add_executable(windingCheck src/WindingErrorChecker.cpp)
-add_executable(powerCalculator src/PowerCalculator.cpp)
+        src/loading_motor_dt/Controller.cpp
+        src/loading_motor_dt/pid.cpp)
+add_executable(angularConverter src/loading_motor_dt/AngularConverter.cpp)
+add_executable(windingCheck src/loading_motor_dt/WindingErrorChecker.cpp)
+add_executable(powerCalculator src/loading_motor_dt/PowerCalculator.cpp)
 add_executable(currentVoltageFlow
-        src/currentVoltageFlow.cpp
-        src/ParseDewetron.cpp
-        src/PhysicalValueTemplate.cpp)
-add_executable(torqueCalculator src/TorqueCalculator.cpp)
+        src/loading_motor_dt/currentVoltageFlow.cpp
+        src/loading_motor_dt/ParseDewetron.cpp
+        src/loading_motor_dt/PhysicalValueTemplate.cpp)
+add_executable(torqueCalculator src/loading_motor_dt/TorqueCalculator.cpp)
 ## Specify libraries to link a library or executable target against
 #target_link_libraries(${PROJECT_NAME}_CCN
 

@@ -8,7 +8,6 @@
 
 <!-- Declare your PID controller parameters -->
 
-    <--
     <node pkg="tb_digital_twin" type="Controller" name="/tb/loading_motor/controller">
       <param name="P" value="0.018" />
       <param name="I" value="0.012" />
@@ -20,6 +19,6 @@
 
 <node name="tb_rotation" pkg="tb_digital_twin" type="angularConverter" />
 
-<include file="$(find tb_digital_twin)/launch/efficiency_map.launch" />
-<include file="$(find tb_digital_twin)/launch/input_current.launch" />
+<include file="$(find tb_digital_twin)/launch/loading_motor_dt/efficiency_map.launch" />
+<include file="$(find tb_digital_twin)/launch/loading_motor_dt/input_current.launch" />
 </launch>
