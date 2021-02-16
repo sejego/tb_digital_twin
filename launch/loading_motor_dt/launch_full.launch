@@ -1,8 +1,0 @@
-<launch>
-    <include file="$(find tb_digital_twin)/launch/loading_motor_dt/input_current.launch" />
-    <include file="$(find tb_digital_twin)/launch/loading_motor_dt/power.launch" />
-    <include file="$(find tb_digital_twin)/launch/loading_motor_dt/torque.launch" />
-    <include file="$(find tb_digital_twin)/launch/loading_motor_dt/efficiency_map.launch" />
-    <include file="$(find tb_digital_twin)/launch/loading_motor_dt/rotationConvert.launch" />
-
-</launch>

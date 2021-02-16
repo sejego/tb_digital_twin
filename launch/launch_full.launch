@@ -1,0 +1,8 @@
+<launch>
+    <include file="$(find tb_digital_twin)/launch/input_current.launch" />
+    <include file="$(find tb_digital_twin)/launch/power.launch" />
+    <include file="$(find tb_digital_twin)/launch/torque.launch" />
+    <include file="$(find tb_digital_twin)/launch/efficiency_map.launch" />
+    <include file="$(find tb_digital_twin)/launch/rotationConvert.launch" />
+
+</launch>
