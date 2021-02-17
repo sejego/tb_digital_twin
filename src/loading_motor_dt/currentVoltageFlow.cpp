@@ -42,8 +42,8 @@ public:
         ros::NodeHandle handler;
         runForever = runForever;
         // initializing publishers/subscribers
-        PublishInputCurrent = handler.advertise<tb_digital_twin::Current>("tb/loading_motor/input_current", 10);
-        PublishInputVoltage = handler.advertise<tb_digital_twin::Voltage>("tb/loading_motor/input_voltage", 10);
+        PublishInputCurrent = handler.advertise<tb_digital_twin::Current>("input_current", 10);
+        PublishInputVoltage = handler.advertise<tb_digital_twin::Voltage>("input_voltage", 10);
         dewetron = new ParseDewetron(filename, numberOfCols); // get from params
         processValues();
     }
@@ -104,13 +104,13 @@ int main(int argc, char **argv)
     int cols, vals;
     bool runForever;
 
-    ros::init(argc, argv, "loading_motor_1");
-    ROS_INFO("Started iseauto inputCurrentVoltage node");
-    ros::param::get("loading_motor_1/csv_file", csv_file);
-    ros::param::get("loading_motor_1/frequency", frequency);
-    ros::param::get("loading_motor_1/number_of_columns", cols);
-    ros::param::get("loading_motor_1/number_of_values", vals);
-    ros::param::get("loading_motor_1/run_forever",runForever);
+    ros::init(argc, argv, "input_current",ros::init_options::AnonymousName);
+    ROS_INFO("Started input_current node");
+    ros::param::get("~csv_file", csv_file);
+    ros::param::get("~frequency", frequency);
+    ros::param::get("~number_of_columns", cols);
+    ros::param::get("~number_of_values", vals);
+    ros::param::get("~run_forever",runForever);
 
     try
     {

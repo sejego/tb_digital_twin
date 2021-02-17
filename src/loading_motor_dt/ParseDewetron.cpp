@@ -33,7 +33,7 @@ void ParseDewetron::parseDewetronFile()
     std::string element;
     if(!dewetronFile.is_open())
     {
-        throw std::runtime_error("Could not open file");
+        throw std::runtime_error("Could not open file fuck:");
     }
 
         /* if file is open and is OK continue */
