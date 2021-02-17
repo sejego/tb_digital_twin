@@ -74,23 +74,23 @@ public:
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "tb_loading_motor_torque");
-    ROS_INFO("Started tb/loading_motor/torque node");
-    ros::NodeHandle nh("~");
+    ros::init(argc, argv, "torque_calculator",ros::init_options::AnonymousName);
+    ROS_INFO("Started torque_calculator");
+    ros::NodeHandle nh;
     ros::Rate rate(60);
 
     TorqueCalculator torqueCalculator;
     /* Subscribers */
-    ros::Subscriber powerReceiver = nh.subscribe<tb_digital_twin::Power>("/tb/loading_motor/motor_power/electrical_power", 100,
+    ros::Subscriber powerReceiver = nh.subscribe<tb_digital_twin::Power>("motor_power/electrical_power", 100,
                                                                        &TorqueCalculator::powerListener, &torqueCalculator);
-    ros::Subscriber efficiencyReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/efficiency", 100,
+    ros::Subscriber efficiencyReceiver = nh.subscribe<std_msgs::Float32>("efficiency", 100,
                                                                     &TorqueCalculator::efficiencyListener, &torqueCalculator);
-    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 100,
+    ros::Subscriber angularVelocityReceiver = nh.subscribe<std_msgs::Float32>("shaft_angular_velocity", 100,
                                                                               &TorqueCalculator::angularVelocityListener, &torqueCalculator);
 
     /* Publishers */
-    ros::Publisher electricalTorquePublisher = nh.advertise<std_msgs::Float32>("/tb/loading_motor/electrical_torque_ref", 10);
-    ros::Publisher mechanicalTorquePublisher = nh.advertise<std_msgs::Float32>("/tb/loading_motor/mechanical_torque", 10);
+    ros::Publisher electricalTorquePublisher = nh.advertise<std_msgs::Float32>("electrical_torque_ref", 10);
+    ros::Publisher mechanicalTorquePublisher = nh.advertise<std_msgs::Float32>("mechanical_torque", 10);
 
 
     std_msgs::Float32 elec_torque_msg;

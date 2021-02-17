@@ -21,16 +21,16 @@ void AngularConverter::VelocityReceiver(const std_msgs::Float32ConstPtr &msg)
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv, "rotation");
-    ROS_INFO("Started tb/loading_motor/rotation node");
-    ros::NodeHandle nh("~");
+    ros::init(argc, argv, "angular_converter",ros::init_options::AnonymousName);
+    ROS_INFO("Started angular_converter");
+    ros::NodeHandle nh;
     ros::Rate rate(60);
 
     AngularConverter listener;
-    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("/tb/loading_motor/shaft_angular_velocity", 10,
+    ros::Subscriber feedbackReceiver = nh.subscribe<std_msgs::Float32>("shaft_angular_velocity", 10,
                                                                        &AngularConverter::VelocityReceiver, &listener);
 
-    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("/tb/loading_motor/actual_rpm", 10);
+    ros::Publisher rotationPublish = nh.advertise<std_msgs::Float32>("actual_rpm", 10);
 
     std_msgs::Float32 rpm_msg;
     rpm_msg.data = 0;
