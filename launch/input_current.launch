@@ -1,11 +1,11 @@
 <launch>
-    <arg name="filename" value="healthy_current_5k.csv" />
+    <arg name="filename" value="measurement_malfunction.csv" />
     <arg name="frequency_default" value="5000" />
     <arg name="number_of_values" value="6"/>
     <arg name="number_of_columns" value="12"/>
     <arg name="run_forever" value="false" />
 <!-- Input Voltage and Current node and parameters -->
-    <node pkg="tb_digital_twin" type="currentVoltageFlow" name="loading_motor_1" output="screen">
+    <node pkg="tb_digital_twin" type="currentVoltageFlow" name="current_input" output="screen" ns="tb/lm_1">
         <param name="csv_file" type="str" value="/home/sejego/catkin_ws/src/Utilities/$(arg filename)" />
         <param name="number_of_values" type="int" value="$(arg number_of_values)" />
         <param name="number_of_columns" type="int" value="$(arg number_of_columns)" />

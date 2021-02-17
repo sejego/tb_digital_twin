@@ -75,6 +75,7 @@ public:
         std::ifstream file(filename);
         if(!file.is_open())
         {
+            ROS_ERROR("Could not open file");
             throw std::runtime_error("Could not open file");
         }
         int line_c=0;
@@ -150,9 +151,9 @@ public:
         pnode.getParam("twist_to_motor_timeout_ticks", timeoutTicks);
 
         // initializing publishers/subscribers
-        TorqueReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/torque", 10, getTorque);
-        RPMReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10, getRPM);
-        EfficiencyControl = handler.advertise<std_msgs::Float32>("tb/loading_motor/efficiency", 10);
+        TorqueReceiver = handler.subscribe<std_msgs::Float32>("torque", 10, getTorque);
+        RPMReceiver = handler.subscribe<std_msgs::Float32>("actual_rpm", 10, getRPM);
+        EfficiencyControl = handler.advertise<std_msgs::Float32>("efficiency", 10);
     }
 
     float getEfficiency(float c_rpm, float c_torque)
@@ -206,11 +207,10 @@ private:
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
     string filename_csv;
-    ros::init(argc, argv, "loading_motor_efficiency");
+    ros::init(argc, argv, "efficiency_map",ros::init_options::AnonymousName);
     int compare;
-    ROS_INFO("Started tb/loading_motor/efficiency node");
-    ros::param::get("loading_motor_efficiency/csv_file", filename_csv);
-    std::cout << filename_csv;
+    ROS_INFO("Started efficiency_map node");
+    ros::param::get("~csv_file", filename_csv);
 
     try {
         EfficiencyMapProcessor EffMapper(filename_csv);

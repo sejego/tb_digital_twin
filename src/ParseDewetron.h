@@ -58,6 +58,7 @@ private:
     float startTime;
     int numOfCols;
     int numOfRows;
+    std::string filename;
     std::vector<std::vector<float>> parsedData;
     std::vector<std::string> listOfValueNames;
     std::vector<std::vector<float>> timeVector;

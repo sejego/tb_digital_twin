@@ -59,14 +59,14 @@ public:
         motorPID->max_i=500;
         rate=60;
         timeoutTicks=2;
-        ros::NodeHandle pnode("~");
-        pnode.getParam("twist_to_motor_rate", rate);
-        pnode.getParam("twist_to_motor_timeout_ticks", timeoutTicks);
+        ros::NodeHandle pnode;
+        pnode.getParam("~twist_to_motor_rate", rate);
+        pnode.getParam("~twist_to_motor_timeout_ticks", timeoutTicks);
 
         // initializing publishers/subscribers
-        encoderReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/actual_rpm", 10, encoderReceive);
-        desiredReceiver = handler.subscribe<std_msgs::Float32>("tb/loading_motor/desired_rpm", 10, desiredReceive);
-        controlPublisher = handler.advertise<std_msgs::Float32>("tb/loading_motor/torque", 10);
+        encoderReceiver = handler.subscribe<std_msgs::Float32>("actual_rpm", 10, encoderReceive);
+        desiredReceiver = handler.subscribe<std_msgs::Float32>("desired_rpm", 10, desiredReceive);
+        controlPublisher = handler.advertise<std_msgs::Float32>("torque", 10);
     }
     void spin() {
         ros::Rate r(rate);
@@ -108,13 +108,13 @@ private:
 //TODO: cosine phi!!!!
 int main(int argc, char **argv) {
     float cp=0, ci=0, cd=0,maxTorque=0,minValue=0;
-    ros::init(argc, argv, "tb/loading_motor/controller");
-    ROS_INFO("Started /tb/loading_motor/controller node");
-    ros::param::get("tb/loading_motor/controller/P", cp);
-    ros::param::get("/tb/loading_motor/controller/I", ci);
-    ros::param::get("/tb/loading_motor/controller/D", cd);
-    ros::param::get("/tb/loading_motor/controller/max_torque",maxTorque);
-    ros::param::get("/tb/loading_motor/controller/min_value",minValue);
+    ros::init(argc, argv, "fake_controller");
+    ROS_INFO("Started fake controller node");
+    ros::param::get("~P", cp);
+    ros::param::get("~I", ci);
+    ros::param::get("~D", cd);
+    ros::param::get("~max_torque",maxTorque);
+    ros::param::get("~min_value",minValue);
 
     try {
         Controller baseController(cp,ci,cd,maxTorque,minValue);

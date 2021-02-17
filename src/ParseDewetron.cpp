@@ -13,6 +13,7 @@
 ParseDewetron::ParseDewetron(std::string filename, int numberOfColumns)
 {
     numOfCols = numberOfColumns;
+    //filename = filename;
     dewetronFile = std::ifstream(filename);
     //usedFrequency = frequency;
     /* automatic parsing of the file */
@@ -33,7 +34,7 @@ void ParseDewetron::parseDewetronFile()
     std::string element;
     if(!dewetronFile.is_open())
     {
-        throw std::runtime_error("Could not open file");
+        throw std::runtime_error("Could not open file fuck:");
     }
 
         /* if file is open and is OK continue */
