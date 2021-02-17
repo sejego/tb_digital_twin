@@ -117,10 +117,10 @@ int main(int argc, char *argv[])
     bool notTerminated = true;
     bool *pNotTerminated = &notTerminated;
     WindingErrorChecker wec;
-    ros::init(argc, argv, "tb_loading_motor_status");
+    ros::init(argc, argv, "windings_checker");
     ros::NodeHandle nh;
     std::thread tPhaseChecker(&WindingErrorChecker::phaseChecker, &wec, pNotTerminated);
-    ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("tb/loading_motor/input_current",
+    ros::Subscriber currentsListener = nh.subscribe<tb_digital_twin::Current>("input_current",
                                                                               200, &WindingErrorChecker::currentCallback, &wec);
     ros::spin();
     if(!ros::ok())
